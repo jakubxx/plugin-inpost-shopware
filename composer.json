@@ -1,0 +1,33 @@
+{
+  "name": "weblives/inpost",
+  "description": "WebLivesInPost",
+  "version": "1.0.0",
+  "type": "shopware-platform-plugin",
+  "license": "Proprietary",
+  "authors": [
+    {
+      "name": "WebLives",
+      "email": "biuro@weblives.pl",
+      "homepage": "https://oferta.weblives.pl/"
+    }
+  ],
+  "support": {
+    "email": "biuro@weblives.pl"
+  },
+  "autoload": {
+    "psr-4": {
+      "WebLivesInPost\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "WebLivesInPost\\WebLivesInPost",
+    "plugin-icon": "src/Resources/config/plugin.png",
+    "label": {
+      "pl-PL": "Integracja InPost",
+      "en-GB": "InPost Integration"
+    }
+  },
+  "require": {
+    "dvdoug/boxpacker": "^3.6"
+  }
+}

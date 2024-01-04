@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Wybór paczkomatu - checkout</title>
+        <input-field type="single-select">
+            <name>searchMode</name>
+            <label>Tryb wyszukiwania paczkomatów</label>
+            <defaultValue>google</defaultValue>
+            <options>
+                <option>
+                    <id>osm</id>
+                    <name>OpenStreetMap</name>
+                </option>
+                <option>
+                    <id>google</id>
+                    <name>Google Maps (wymagany klucz)</name>
+                </option>
+            </options>
+        </input-field>
+        <input-field>
+            <name>googleKey</name>
+            <label>Klucz API Google Maps</label>
+            <helpText>Wymagany do działania wyszukiwarki paczkomatów w trybie Google Maps</helpText>
+            <defaultValue>AIzaSyA8_S9iY9bHGbG1DYnVZwWWcsp4OjYaZKc</defaultValue>
+        </input-field>
+    </card>
+
+    <card>
+        <!-- prod -->
+        <title>API ShipX</title>
+        <input-field>
+            <name>prodShipXOrgId</name>
+            <label>ID organizacji - produkcja</label>
+        </input-field>
+        <input-field type="password">
+            <name>prodShipXToken</name>
+            <label>Token produkcyjny</label>
+        </input-field>
+
+        <!-- sandbox -->
+        <input-field type="bool">
+            <name>sandboxShipXEnabled</name>
+            <label>Włącz sandbox</label>
+        </input-field>
+        <input-field>
+            <name>sandboxShipXOrgId</name>
+            <label>ID organizacji - sandbox</label>
+            <helpText>Pole wymagane jeśli sandbox został włączony</helpText>
+        </input-field>
+        <input-field type="password">
+            <name>sandboxShipXToken</name>
+            <label>Token sandbox</label>
+            <helpText>Pole wymagane jeśli sandbox został włączony</helpText>
+        </input-field>
+
+        <!-- general -->
+        <input-field type="bool">
+            <name>exportLockerEnabled</name>
+            <label>Włącz automatyczny eksport przesyłek paczkomatowych</label>
+        </input-field>
+        <input-field type="bool">
+            <name>exportCourierEnabled</name>
+            <label>Włącz automatyczny eksport przesyłek kurierskich</label>
+        </input-field>
+        <input-field type="bool">
+            <name>importLockerEnabled</name>
+            <label>Włącz automatyczny import nr listów przewozowych dla przesyłek paczkomatowych</label>
+        </input-field>
+        <input-field type="bool">
+            <name>importCourierEnabled</name>
+            <label>Włącz automatyczny import nr listów przewozowych dla przesyłek kurierskich</label>
+        </input-field>
+        <component name="sw-entity-single-select">
+            <name>codPaymentId</name>
+            <label>Metoda płatności - pobranie</label>
+            <entity>payment_method</entity>
+            <helpText>Dla przesyłek zamówionych z tą metodą płatności będą dodawane opłaty pobraniowe.</helpText>
+        </component>
+    </card>
+
+</config>

@@ -1,0 +1,2 @@
+- Create new Rule (eg. Courier - max. 220cm dimensions sum and < 20kg per article in cart) and add them when creating shipping methods on install.
+- EN Translations

@@ -1,0 +1,122 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!-- logger -->
+        <service id="weblives_inpost.logger" class="Monolog\Logger">
+            <factory service="Shopware\Core\Framework\Log\LoggerFactory" method="createRotating"/>
+            <argument type="string">weblives_inpost</argument>
+        </service>
+
+        <!-- snippets -->
+        <service id="WebLivesInPost\Resources\snippet\SnippetFile_pl_PL" public="true">
+            <tag name="shopware.snippet.file"/>
+        </service>
+
+        <!-- subscribers -->
+        <service id="WebLivesInPost\Subscribers\Checkout">
+            <argument type="service" id="Shopware\Core\Checkout\Customer\SalesChannel\AccountService"/>
+            <argument type="service" id="customer_address.repository"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+            <argument type="service" id="shipping_method.repository"/>
+            <argument type="service" id="customer.repository"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <!-- controllers -->
+        <service id="WebLivesInPost\Controllers\LockersController" public="true">
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\CartPersister"/>
+            <argument type="service" id="customer_address.repository"/>
+            <argument type="service" id="Shopware\Core\Checkout\Customer\SalesChannel\AccountService"/>
+
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="WebLivesInPost\Controllers\TaskController" public="true">
+            <argument type="service" id="WebLivesInPost\Services\ExportDeliveryService"/>
+            <argument type="service" id="WebLivesInPost\Services\ImportDeliveryService"/>
+        </service>
+
+        <!-- tasks -->
+        <service id="WebLivesInPost\Tasks\ExportTask">
+            <tag name="shopware.scheduled.task"/>
+        </service>
+
+        <service id="WebLivesInPost\Tasks\ImportTask">
+            <tag name="shopware.scheduled.task"/>
+        </service>
+
+        <!-- task handlers -->
+        <service id="WebLivesInPost\Tasks\Handlers\ExportTaskHandler">
+            <argument type="service" id="scheduled_task.repository"/>
+            <argument type="service" id="weblives_inpost.logger"/>
+            <argument type="service" id="WebLivesInPost\Services\ExportDeliveryService"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+
+        <service id="WebLivesInPost\Tasks\Handlers\ImportTaskHandler">
+            <argument type="service" id="scheduled_task.repository"/>
+            <argument type="service" id="weblives_inpost.logger"/>
+            <argument type="service" id="WebLivesInPost\Services\ImportDeliveryService"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+
+        <!-- services -->
+        <service id="WebLivesInPost\Util\VendorLoader"/>
+
+        <service id="WebLivesInPost\Services\ConfigService">
+            <argument type="service" id="WebLivesInPost\Util\VendorLoader"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+        </service>
+
+        <service id="WebLivesInPost\Services\ExportDeliveryService">
+            <argument type="service" id="weblives_inpost.logger"/>
+            <argument type="service" id="order_delivery.repository"/>
+            <argument type="service" id="shipping_method.repository"/>
+            <argument type="service" id="WebLivesInPost\Services\ConfigService"/>
+            <argument type="service" id="WebLivesInPost\Services\ShipXApiConnector"/>
+            <argument type="service" id="WebLivesInPost\Repositories\InPostDeliveryRepository"/>
+            <argument type="service" id="WebLivesInPost\Services\PackerService"/>
+        </service>
+
+        <service id="WebLivesInPost\Services\ImportDeliveryService">
+            <argument type="service" id="weblives_inpost.logger"/>
+            <argument type="service" id="order_delivery.repository"/>
+            <argument type="service" id="shipping_method.repository"/>
+            <argument type="service" id="WebLivesInPost\Services\ConfigService"/>
+            <argument type="service" id="WebLivesInPost\Services\ShipXApiConnector"/>
+            <argument type="service" id="WebLivesInPost\Repositories\InPostDeliveryRepository"/>
+        </service>
+
+        <service id="WebLivesInPost\Services\ShipXApiConnector">
+            <argument type="service" id="weblives_inpost.logger"/>
+            <argument type="service" id="WebLivesInPost\Services\ConfigService"/>
+        </service>
+
+        <service id="WebLivesInPost\Services\PackerService">
+            <!-- no arguments -->
+        </service>
+
+        <!-- repositories -->
+        <service id="WebLivesInPost\Repositories\InPostDeliveryRepository">
+            <argument type="service" id="weblives_inpost.logger"/>
+            <argument type="service" id="order_delivery.repository"/>
+            <argument type="service" id="WebLivesInPost\Services\ConfigService"/>
+        </service>
+
+        <!-- custom rules -->
+        <service id="WebLivesInPost\Rules\IsLockerPackageRule">
+            <tag name="shopware.rule.definition"/>
+        </service>
+
+        <service id="WebLivesInPost\Rules\IsCourierPackageRule">
+            <tag name="shopware.rule.definition"/>
+        </service>
+    </services>
+</container>

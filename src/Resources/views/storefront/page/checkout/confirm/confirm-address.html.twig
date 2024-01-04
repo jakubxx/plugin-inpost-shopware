@@ -1,0 +1,40 @@
+{% sw_extends '@Storefront/storefront/page/checkout/confirm/confirm-address.html.twig' %}
+{% set inpost_locker = constant('WebLivesInPost\\Util\\Constants::LOCKER_IDENTIFIER') %}
+
+{% block page_checkout_confirm_address_shipping_title %}
+    {% if context.shippingMethod.customFields.identifier == inpost_locker %}
+        <div class="card-title">
+            {{ "inpost.checkout.shippingAddressHeader"|trans|sw_sanitize }}
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block page_checkout_confirm_address_shipping_data %}
+    {% if context.shippingMethod.customFields.identifier == inpost_locker %}
+        <div class="confirm-address-shipping">
+            {% sw_include '@Storefront/storefront/component/address/locker-address.html.twig' with {
+                'address': shippingAddress
+            } %}
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block page_checkout_confirm_address_shipping_actions %}
+    {% if context.shippingMethod.customFields.identifier == inpost_locker %}
+        {% sw_include '@Storefront/storefront/page/checkout/confirm/inpost-lockers-modal.html.twig' %}
+        <div class="card-actions">
+            <a href="#"
+               class="weblives-inpost-modal-open btn btn-light"
+               data-toggle="modal"
+               data-target="#inpost-lockers-map">
+                {{ "inpost.checkout.selectLocker"|trans|sw_sanitize }}
+            </a>
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

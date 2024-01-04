@@ -1,0 +1,15 @@
+{% sw_extends '@Storefront/storefront/page/account/addressbook/address-actions.html.twig' %}
+{% set inpost_locker = constant('WebLivesInPost\\Util\\Constants::LOCKER_IDENTIFIER') %}
+
+{# remove content for locker address #}
+{% block page_account_address_actions_set_default %}
+    {% if address.customFields.identifier != inpost_locker %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block page_account_address_actions_update %}
+    {% if address.customFields.identifier != inpost_locker %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

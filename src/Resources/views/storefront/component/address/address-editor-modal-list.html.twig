@@ -1,0 +1,32 @@
+{% sw_extends '@Storefront/storefront/component/address/address-editor-modal-list.html.twig' %}
+{% set inpost_locker = constant('WebLivesInPost\\Util\\Constants::LOCKER_IDENTIFIER') %}
+
+{% block component_address_address_editor_modal_list_address_include %}
+    {% if address.customFields.identifier == inpost_locker %}
+        <div class="d-flex">
+            {% sw_include '@Storefront/storefront/component/address/locker-address.html.twig' %}
+            <img class="weblives-inpost-logo"
+                 src="{{ asset('storefront/img/inpost-logo.png', '@WebLivesInPost') }}"
+                 alt="Logo InPost">
+        </div>
+        <p class="font-italic">
+            {{ "inpost.checkout.lockerAddressDesc"|trans|sw_sanitize }}
+        </p>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{# remove button to set locker address as shipping when other shipping selected #}
+{% block component_address_address_editor_modal_list_address_action_billing_form_button %}
+    {% if address.customFields.identifier != inpost_locker %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{# remove button to set locker address as billing address #}
+{% block component_address_address_editor_modal_list_address_action_shipping_form_button %}
+    {% if address.customFields.identifier != inpost_locker %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

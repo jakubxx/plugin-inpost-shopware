@@ -1,0 +1,45 @@
+{% set inpost_locker = constant('WebLivesInPost\\Util\\Constants::LOCKER_IDENTIFIER') %}
+
+{% block component_locker_address %}
+    {% if address.customFields.identifier == inpost_locker %}
+        <div class="address">
+            {% if address.company %}
+                <p>
+                    {{ address.company }}{% if address.department %} - {{ address.department }}{% endif %}
+                </p>
+            {% endif %}
+            <p>
+                {% if address.salutation.salutationKey != 'not_specified' %}
+                    {{ address.salutation.translated.displayName }}
+                {% endif %}
+                {% if address.title %}
+                    {{ address.title }}<br/>
+                {% endif %}
+                {#            {{ address.firstName }} {{ address.lastName }}<br/>#}
+                {{ address.street }}<br/>
+                {% if address.additionalAddressLine1 %}
+                    {{ address.additionalAddressLine1 }}<br/>
+                {% endif %}
+                {% if address.additionalAddressLine2 %}
+                    {{ address.additionalAddressLine2 }}<br/>
+                {% endif %}
+                {% if address.phoneNumber %}
+                    {{ address.phoneNumber }}<br/>
+                {% endif %}
+                {% if shopware.config.core.address.showZipcodeInFrontOfCity %}
+                    {{ address.zipcode }} {{ address.city }}<br/>
+                {% else %}
+                    {{ address.zipcode }} {{ address.city }}<br/>
+                {% endif %}
+                {% if address.countryState %}
+                    {{ address.countryState.translated.name }}<br/>
+                {% endif %}
+                {{ address.country.translated.name }}
+            </p>
+        </div>
+    {% else %}
+        <p class="font-italic">
+            {{ "inpost.checkout.lockerNotSelected"|trans|sw_sanitize }}
+        </p>
+    {% endif %}
+{% endblock %}

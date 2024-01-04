@@ -1,0 +1,11 @@
+{
+  "inpost": {
+    "checkout": {
+      "shippingAddressHeader": "Punkt odbioru",
+      "selectLocker": "Wybierz paczkomat",
+      "selectedLocker": "Wybrany paczkomat",
+      "lockerAddressDesc": "Adres paczkomatu nie może zostać użyty",
+      "lockerNotSelected": "Nie wybrano paczkomatu"
+    }
+  }
+}

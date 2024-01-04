@@ -1,0 +1,14 @@
+{
+    "weblives": {
+        "condition": {
+            "lockerPackage": {
+                "label": "InPost przesyłka paczkomatowa",
+                "field": "Paczka zmieści się do paczkomatu"
+            },
+            "courierPackage": {
+                "label": "InPost przesyłka kurierska",
+                "field": "Paczka wpisuje się w wymagania kuriera InPost"
+            }
+        }
+    }
+}

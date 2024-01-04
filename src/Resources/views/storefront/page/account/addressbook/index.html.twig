@@ -1,0 +1,25 @@
+{% sw_extends '@Storefront/storefront/page/account/addressbook/index.html.twig' %}
+{% set inpost_locker = constant('WebLivesInPost\\Util\\Constants::LOCKER_IDENTIFIER') %}
+
+{% block page_account_address_overview_address %}
+    {% if address.customFields.identifier == inpost_locker %}
+        <div class="d-flex">
+            {% sw_include '@Storefront/storefront/component/address/locker-address.html.twig' %}
+            <img class="weblives-inpost-logo"
+                 src="{{ asset('storefront/img/inpost-logo.png', '@WebLivesInPost') }}"
+                 alt="Logo InPost">
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block page_account_address_overview_body %}
+    {% if address.customFields.identifier == inpost_locker %}
+        <div class="weblives-locker-address">
+            {{ parent() }}
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

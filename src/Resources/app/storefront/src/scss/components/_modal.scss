@@ -1,0 +1,15 @@
+.modal-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+
+  background: #000000;
+  opacity: 0.4;
+  visibility: hidden;
+  transition: visibility 300ms ease-in-out;
+
+  &.is-loading {
+    visibility: visible;
+  }
+}

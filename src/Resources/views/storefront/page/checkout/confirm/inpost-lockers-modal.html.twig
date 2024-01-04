@@ -1,0 +1,76 @@
+{% set inpost_locker = constant('WebLivesInPost\\Util\\Constants::LOCKER_IDENTIFIER') %}
+
+{% block weblives_inpost_lockers_modal %}
+    <div class="weblives-inpost-lockers-modal modal fade"
+         id="inpost-lockers-map"
+         tabindex="-1"
+         role="dialog"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+
+            {% block weblives_inpost_lockers_modal_content %}
+                <div class="modal-content">
+
+                    {% block weblives_inpost_lockers_modal_overlay %}
+                        <div class="modal-overlay">
+
+                        </div>
+                    {% endblock %}
+
+                    {% block weblives_inpost_lockers_modal_header %}
+                        <div class="modal-header">
+                            {{ "inpost.checkout.selectLocker"|trans|sw_sanitize }}
+                        </div>
+                    {% endblock %}
+
+                    {% block weblives_inpost_lockers_modal_body %}
+                        <div class="modal-body">
+                            {% block weblives_inpost_select_paczkomat %}
+                                <script src="https://geowidget.easypack24.net/js/sdk-for-javascript.js"></script>
+                                <link rel="stylesheet"
+                                      href="https://geowidget.easypack24.net/css/easypack.css"/>
+
+                                <script type="text/javascript">
+                                  easyPack.init({
+                                    instance: 'pl',
+                                    mapType: {% if shopware.config.WebLivesInPost.config.searchMode %}'{{ shopware.config.WebLivesInPost.config.searchMode }}'
+                                      {% else %}'osm'{% endif %},
+                                    searchType: {% if shopware.config.WebLivesInPost.config.searchMode %}'{{ shopware.config.WebLivesInPost.config.searchMode }}'
+                                      {% else %}'osm'{% endif %},
+                                    points: {
+                                      types: ['parcel_locker_only'],
+                                    },
+                                    map: {
+                                      useGeolocation: true,
+                                      initialTypes: ['parcel_locker'],
+                                        {% if shopware.config.WebLivesInPost.config.searchMode == 'google' %}googleKey: '{{ shopware.config.WebLivesInPost.config.googleKey }}',{% endif %}
+                                    }
+                                  })
+
+                                  window.easyPack = easyPack
+                                </script>
+
+                                {% if shippingAddress.customFields.identifier == inpost_locker %}
+                                    <div class="weblives-inpost-address">
+                                        <p class="font-weight-bold">{{ "inpost.checkout.selectedLocker"|trans|sw_sanitize }}:</p>
+                                        {% sw_include '@Storefront/storefront/component/address/locker-address.html.twig' with {
+                                            'address': shippingAddress
+                                        } %}
+                                    </div>
+                                {% endif %}
+
+                                <div id="easypack-widget"
+                                     data-inpost-locker-modal-selector="#inpost-lockers-map"
+                                     data-inpost-locker-address-selector=".confirm-address-shipping"
+                                ></div>
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+
+                    {% block weblives_inpost_lockers_modal_footer %}
+                    {% endblock %}
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

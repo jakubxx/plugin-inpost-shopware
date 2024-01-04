@@ -1,0 +1,14 @@
+{
+    "weblives": {
+        "condition": {
+            "lockerPackage": {
+                "label": "InPost locker package",
+                "field": "Package will fit in the locker"
+            },
+            "courierPackage": {
+                "label": "InPost courier package",
+                "field": "Package will fit InPost courier requirements"
+            }
+        }
+    }
+}
